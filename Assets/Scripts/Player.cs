@@ -12,11 +12,12 @@ public class Player : MonoBehaviour
     private int lastGunFired = 0;
     private float timeLastFired = 0f;
     public float shotCooldown;
+    public GameObject shield;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        shield.SetActive(false);
     }
 
     // Update is called once per frame
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour
         // Firing
         if (Input.GetButton("Fire1") && (Time.time - timeLastFired) > shotCooldown)
         {
+            timeLastFired = Time.time;
             if (lastGunFired == 0)
             {
                 Instantiate(laserProjectile, leftGun.position, Quaternion.identity);
@@ -54,6 +56,16 @@ public class Player : MonoBehaviour
                 Instantiate(laserProjectile, rightGun.position, Quaternion.identity);
                 lastGunFired = 0;
             }
+        }
+
+        // Shield
+        if (Input.GetButtonDown("Shield"))
+        {
+            shield.SetActive(true);
+        }
+        if (Input.GetButtonUp("Shield"))
+        {
+            shield.SetActive(false);
         }
     }
 }
